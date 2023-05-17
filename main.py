@@ -28,19 +28,29 @@ connection.close()
 
 
 def new_workout():
-    # create submit fxn
+    t_name = 0
+    #TODO: move entry to new window, submit button functionality, check name is entered
     def submit():
+
         conn = sqlite3.connect('workout_logs.db')
 
         c = conn.cursor()
 
-        c.execute("INSERT INTO exercise VALUES (:e_name, :sets, :weight, :reps )",
+        c.execute("INSERT INTO exercise VALUES (:e_name, :sets, :weight, :reps, :date )",
                   {
                       'e_name': e_name.get(),
                       'sets': sets.get(),
                       'weight': weight.get(),
-                      'reps': reps.get()
+                      'reps': reps.get(),
+                      'date' :cal.get_date()
                   })
+        if t_name == 0 :
+            t_name += 1
+            c.execute("INSERT INTO workouts VALUES (:date, :name)",
+                    {
+                        'name':name_entry.get(),
+                        'date': cal.get_date()
+                    })
 
         e_name.delete(0, END)
         sets.delete(0, END)
